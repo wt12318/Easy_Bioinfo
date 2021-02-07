@@ -11,3 +11,17 @@
 #' }
 
 "count_df"
+
+#' Survival data of 1000 samples in TCGA project
+#'
+#' @format A data frame with 1000 rows and 6 variables:
+#' \describe{
+#'   \item{sample}{TCGA sample barcode}
+#'   \item{age}{age of samples}
+#'   \item{gender}{gender of samples; Male/Female}
+#'   \item{Tumor_stage}{Tumor stages}
+#'   \item{OS}{OS status}
+#'   \item{OS.time}{Survial time}
+#' }
+
+"sample_survival"
