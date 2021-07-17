@@ -6,6 +6,8 @@
 #' @param control_counts A numeric vector, how many samples are control.
 #' @param treatment_lable A character vector, name for treatment samples,such as "KD"(Knockdown).
 #' @param treatment_counts A numeric vector, how many samples are treatment.
+#' @param parallel 	if FALSE, no parallelization. if TRUE, parallel execution using BiocParallel.
+#' @param ncores the number of cores for parallelization.
 #'
 #' @return Return a result dataframe from a DESeq analysis giving base means across samples, log2 fold changes,
 #'     standard errors, test statistics, p-values and adjusted p-values
@@ -13,7 +15,7 @@
 #'
 #' @examples
 #' res <- deg_deseq2(count_df,control_label="ctrl",control_counts=2,treatment_lable="KD",treatment_counts=2)
-deg_deseq2 <- function(dt,control_label,control_counts,treatment_lable,treatment_counts){
+deg_deseq2 <- function(dt,control_label,control_counts,treatment_lable,treatment_counts,parallel = FALSE,ncores=1){
   count_df.filter <- count_df[rowSums(count_df) > 10 ,]## keep only rows that have at least 10 reads total
 
   # condition table
@@ -25,11 +27,14 @@ deg_deseq2 <- function(dt,control_label,control_counts,treatment_lable,treatment
   }
   rownames(sample_df) <- colnames(count_df.filter)
 
+  sample_df$condition <- factor(sample_df$condition)
+  sample_df$condition <- relevel(sample_df$condition, ref = control_label)
   deseq2.obj <- DESeq2::DESeqDataSetFromMatrix(countData = count_df.filter, colData = sample_df, design = ~condition)
-  deseq2.obj <- DESeq2::DESeq(deseq2.obj)
+  BiocParallel::register(BiocParallel::MulticoreParam(ncores))
+  deseq2.obj <- DESeq2::DESeq(deseq2.obj,parallel = TRUE)
 
   # get result
-  deseq2.obj.res <- DESeq2::results(deseq2.obj)
+  deseq2.obj.res <- DESeq2::results(deseq2.obj,contrast = c("condition",treatment_lable,control_label))
   deseq2.obj.res.df <- as.data.frame(deseq2.obj.res)
   return(deseq2.obj.res.df)
 }

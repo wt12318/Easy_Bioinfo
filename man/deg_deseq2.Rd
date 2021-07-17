@@ -9,7 +9,9 @@ deg_deseq2(
   control_label,
   control_counts,
   treatment_lable,
-  treatment_counts
+  treatment_counts,
+  parallel = FALSE,
+  ncores = 1
 )
 }
 \arguments{
@@ -23,6 +25,10 @@ control samples followed by treatment samples.}
 \item{treatment_lable}{A character vector, name for treatment samples,such as "KD"(Knockdown).}
 
 \item{treatment_counts}{A numeric vector, how many samples are treatment.}
+
+\item{parallel}{if FALSE, no parallelization. if TRUE, parallel execution using BiocParallel.}
+
+\item{ncores}{the number of cores for parallelization.}
 }
 \value{
 Return a result dataframe from a DESeq analysis giving base means across samples, log2 fold changes,
