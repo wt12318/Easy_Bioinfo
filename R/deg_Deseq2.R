@@ -16,7 +16,7 @@
 #' @examples
 #' res <- deg_deseq2(count_df,control_label="ctrl",control_counts=2,treatment_lable="KD",treatment_counts=2)
 deg_deseq2 <- function(dt,control_label,control_counts,treatment_lable,treatment_counts,parallel = FALSE,ncores=1){
-  count_df.filter <- count_df[rowSums(count_df) > 10 ,]## keep only rows that have at least 10 reads total
+  count_df.filter <- dt[rowSums(dt) > 10 ,]## keep only rows that have at least 10 reads total
 
   # condition table
   sample_df <- data.frame(
