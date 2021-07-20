@@ -2,4 +2,5 @@
 
 export(deg_deseq2)
 export(do_gsea)
+export(do_gsva)
 export(show_km)

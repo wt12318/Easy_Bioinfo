@@ -14,9 +14,9 @@
 #' gmt.file <- system.file("extdata", "h.all.v7.4.symbols.gmt", package="EasyBioinfo")
 #' gsea_res <- do_gsea(res,gene_set = gmt.file,gene_id = "gene",stat = "stat")
 do_gsea <- function(dt,gene_set,gene_id,stat){
-  pathways <- gmtPathways(gene_set)
+  pathways <- fgsea::gmtPathways(gene_set)
   ranks <- setNames(dt[,stat], dt[,gene_id])
-  fgseaRes <- fgsea(pathways = pathways,
+  fgseaRes <- fgsea::fgsea(pathways = pathways,
                     stats    = ranks,
                     eps      = 0.0,
                     minSize  = 15,

@@ -22,4 +22,5 @@ Imports:
     fgsea,
     DESeq2,
     survival,
-    survminer
+    survminer,
+    GSVA
