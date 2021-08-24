@@ -14,3 +14,27 @@ rownames(tpm_gene_log2) <- tpm_gene_log2$gene
 tpm_gene_log2 <- tpm_gene_log2 %>% select(-gene)
 usethis::use_data(tpm_gene_log2, overwrite = TRUE)
 
+###get primary site of TCGA samples
+install.packages("RJSONIO")
+library(RJSONIO)
+library(rio)
+library(dplyr)
+primary_site <- import("data-raw/primary_site.json")
+primary_site <- primary_site %>%
+  dplyr::select(primary_site,submitter_id)
+usethis::use_data(primary_site, overwrite = TRUE)
+
+##cancer type
+code <- read.csv("data-raw/TCGA_code.csv",stringsAsFactors = FALSE) %>%
+  mutate(TSS.Code=ifelse(is.na(TSS.Code),"NA",TSS.Code))
+study <- read.csv("data-raw/study.csv")
+code <- left_join(code,
+                  study,
+                  by="Study.Name")
+cancer_type_code <- code
+cancer_type_code <- cancer_type_code %>%
+  rename(cancer_code=TSS.Code,cancer_type=Study.Abbreviation,
+         cancer_type_full_name=Study.Name) %>%
+  select(-Source.Site,-BCR)
+cancer_type_code[,1:3] <- apply(cancer_type_code[,1:3],2,as.character)
+usethis::use_data(cancer_type_code,internal = TRUE,overwrite = TRUE)

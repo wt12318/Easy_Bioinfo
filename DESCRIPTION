@@ -23,4 +23,5 @@ Imports:
     DESeq2,
     survival,
     survminer,
-    GSVA
+    GSVA,
+    parallel
