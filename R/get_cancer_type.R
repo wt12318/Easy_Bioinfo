@@ -17,7 +17,7 @@
 #' get_cancer_type("Liver hepatocellular carcinoma",input_type="full_name")
 
 get_cancer_type <- function(input,cores,parallel=FALSE,need_full_name=FALSE,input_type="code"){
-  cancer_type_code <- NeoEnrichment::cancer_type_code
+  cancer_type_code <- EasyBioinfo::cancer_type_code
   if (input_type=="code"){
     if (!need_full_name){
       if(!parallel){
