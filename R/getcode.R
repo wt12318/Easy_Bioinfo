@@ -14,7 +14,7 @@ getcode <- function(x,dt="cancer_type_code",
     return(NA)
   }else{
     dt <- get(dt)
-    return(dt[,column_need][grep(x,dt[,column_select])])
+    return(unique(dt[,column_need][grep(x,dt[,column_select])]))
   }
 }
 

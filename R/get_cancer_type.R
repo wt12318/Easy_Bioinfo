@@ -19,16 +19,16 @@
 get_cancer_type <- function(input,cores,parallel=FALSE,need_full_name=FALSE,input_type="code"){
   cancer_type_code <- NeoEnrichment::cancer_type_code
   if (input_type=="code"){
-    if (!need_full_name){
+    if (need_full_name){
       if(!parallel){
         code <- substr(input,6,7)
-        cancer_type <- sapply(code,getcode)
+        cancer_type <- sapply(code,getcode,column_need="cancer_type_full_name")
         return(cancer_type)
       }else{
         cat(paste0("you have ",parallel::detectCores(logical = F)," cores"))
         cl <- parallel::makeCluster(getOption("cl.cores", cores),type="FORK")
         code <- substr(input,6,7)
-        cancer_type <- parSapply(cl=cl,code,getcode)
+        cancer_type <- parSapply(cl=cl,code,getcode,column_need="cancer_type_full_name")
         parallel::stopCluster(cl)
         return(cancer_type)
       }
@@ -48,12 +48,12 @@ get_cancer_type <- function(input,cores,parallel=FALSE,need_full_name=FALSE,inpu
     }
   }else if (input_type=="full_name"){
     if(!parallel){
-      cancer_type <- sapply(input,getcode)
+      cancer_type <- sapply(input,getcode,column_select="cancer_type_full_name")
       return(cancer_type)
     }else{
       cat(paste0("you have ",parallel::detectCores(logical = F)," cores"))
       cl <- parallel::makeCluster(getOption("cl.cores", cores),type="FORK")
-      cancer_type <- parSapply(cl=cl,input,getcode)
+      cancer_type <- parSapply(cl=cl,input,getcode,column_select="cancer_type_full_name")
       parallel::stopCluster(cl)
       return(cancer_type)
     }
