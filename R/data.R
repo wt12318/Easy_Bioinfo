@@ -40,3 +40,16 @@
 #' @source \url{https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables/tcga-study-abbreviations}
 #' @export
 "cancer_type_code"
+
+#' Protein accession IDs from Uniprot database
+#'
+#' A dataset containing the mapping between gene id (Entrez ID) and Uniprot protein accession id
+#'
+#' @format A data frame with 204185 rows and 2 variables:
+#' \describe{
+#'   \item{acc}{Uniport protein accession ID}
+#'   \item{EntrezGene}{Entrez gene ID}
+#' }
+#' @source \url{https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/}
+#' @export
+"accession_uniprot"

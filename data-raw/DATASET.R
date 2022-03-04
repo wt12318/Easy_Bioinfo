@@ -38,3 +38,11 @@ cancer_type_code <- cancer_type_code %>%
   select(-Source.Site,-BCR)
 cancer_type_code[,1:3] <- apply(cancer_type_code[,1:3],2,as.character)
 usethis::use_data(cancer_type_code,internal = TRUE,overwrite = TRUE)
+
+##get accession id from uniprot
+#ID mapping files was downloaded from https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/by_organism/
+dt <- data.table::fread("HUMAN_9606_idmapping_selected.tab",data.table = F)
+dt <- dt %>% select(V1,V3)
+colnames(dt) <- c("acc","EntrezGene")
+saveRDS(dt,file = "accession_uniprot.rds")
+usethis::use_data(accession_uniprot,overwrite = TRUE)
