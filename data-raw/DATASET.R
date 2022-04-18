@@ -39,10 +39,18 @@ cancer_type_code <- cancer_type_code %>%
 cancer_type_code[,1:3] <- apply(cancer_type_code[,1:3],2,as.character)
 usethis::use_data(cancer_type_code,internal = TRUE,overwrite = TRUE)
 
-##get accession id from uniprot
-#ID mapping files was downloaded from https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/by_organism/
-dt <- data.table::fread("HUMAN_9606_idmapping_selected.tab",data.table = F)
-dt <- dt %>% select(V1,V3)
-colnames(dt) <- c("acc","EntrezGene")
-saveRDS(dt,file = "accession_uniprot.rds")
-usethis::use_data(accession_uniprot,overwrite = TRUE)
+##
+library(seqinr)
+library(dplyr)
+fa <- read.fasta(file = "~/data/uniprot_sprot.fasta", seqtype = "AA",as.string = TRUE,whole.header = T)
+dt <- data.frame(id=names(fa),len=NA)
+dt <- dt %>%
+  rowwise() %>%
+  mutate(id=strsplit(id,split = "\\|")[[1]][2])
+dt$len <- getLength(fa)
+dt$seq <- getSequence(fa,as.string = T) %>% unlist()
+saveRDS(dt,file = "~/data/all_uniprot_df.rds")
+
+dt <- dt[1:50,]
+uniprot_protein_test <- dt
+usethis::use_data(uniprot_protein_test, overwrite = TRUE)

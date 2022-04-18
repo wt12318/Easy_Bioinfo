@@ -41,15 +41,15 @@
 #' @export
 "cancer_type_code"
 
-#' Protein accession IDs from Uniprot database
+#' Protein sequence from Uniprot database (only take 50 proteins for example)
 #'
-#' A dataset containing the mapping between gene id (Entrez ID) and Uniprot protein accession id
+#' A dataframe containing sequences of 50 proteins
 #'
-#' @format A data frame with 204185 rows and 2 variables:
+#' @format A data frame with 50 rows and 3 variables:
 #' \describe{
-#'   \item{acc}{Uniport protein accession ID}
-#'   \item{EntrezGene}{Entrez gene ID}
+#'   \item{id}{Uniport protein accession ID}
+#'   \item{len}{Length of the sequence}
+#'   \item{seq}{Sequence of the protein}
 #' }
-#' @source \url{https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/}
-#' @export
-"accession_uniprot"
+#' @source \url{https://www.uniprot.org/downloads}
+"uniprot_protein_test"
