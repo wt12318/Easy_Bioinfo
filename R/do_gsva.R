@@ -20,7 +20,7 @@ do_gsva <- function(exp_dt,gmt_path,exp_type="array",...){
 
     pathways <- fgsea::gmtPathways(gmt_path)
     path_ranges <- range(lengths(pathways))
-    res <- GSVA::gsva(exp_dt, pathways, min.sz=path_ranges[1], max.sz=path_ranges[2],...)
+    res <- GSVA::gsva(exp_dt, pathways, min.sz=path_ranges[1], max.sz=path_ranges[2],kcdf=kcdf,...)
     return(res)
 
   }else{
