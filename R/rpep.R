@@ -11,7 +11,8 @@
 #'res <- rpep(uniprot_protein_test,mer_len=9,random_num=100)
 #'
 #'
-rpep <-  function(dt,mer_len,random_num){
+rpep <-  function(dt,mer_len,random_num,pepseq_col,id_col){
+  colnames(dt)[which(colnames(dt)==pepseq_col)] <- "seq"
   dt$len <- nchar(dt$seq)
   dt <- dt %>% filter(len >= mer_len)
   dt$max_num <- dt$len - mer_len + 1
@@ -21,10 +22,12 @@ rpep <-  function(dt,mer_len,random_num){
   select_pep <- findInterval(select_num,all_num) + 1
   ids_freq <- table(select_pep) %>% as.data.frame()##which protein is selected and how many random peptides need from each protein
 
-  res <- mapply(get_random_pep,
+  res <- mapply(EasyBioinfo:::get_random_pep,
                 id = ids_freq$select_pep,
                 num = ids_freq$Freq,MoreArgs = list(dt=dt,mer_len=mer_len),SIMPLIFY = FALSE)
-  res <- bind_rows(res)
-  colnames(res) <- "random_pep"
+  names(res) <- ids_freq$select_pep
+  res <- bind_rows(res,.id = "ids")
+  colnames(res)[2] <- "random_pep"
+  res$ids <- dt[res$ids,id_col]
   return(res)
 }

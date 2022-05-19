@@ -4,7 +4,7 @@
 \alias{rpep}
 \title{Get random peptides from protein sequences}
 \usage{
-rpep(dt, mer_len, random_num)
+rpep(dt, mer_len, random_num, pepseq_col, id_col)
 }
 \arguments{
 \item{dt}{A dataframe with at least 1 column containg protein sequence}
