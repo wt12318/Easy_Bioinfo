@@ -21,7 +21,7 @@ rpep <-  function(dt,mer_len,random_num,pepseq_col,id_col){
   select_num <- sample(1:all_num[length(all_num)],size = random_num)
   select_pep <- findInterval(select_num,all_num) + 1
   ids_freq <- table(select_pep) %>% as.data.frame()##which protein is selected and how many random peptides need from each protein
-
+  ids_freq$select_pep <- as.numeric(as.character(ids_freq$select_pep))
   res <- mapply(EasyBioinfo:::get_random_pep,
                 id = ids_freq$select_pep,
                 num = ids_freq$Freq,MoreArgs = list(dt=dt,mer_len=mer_len),SIMPLIFY = FALSE)
